@@ -34,11 +34,17 @@ export class VisCompComponent implements OnInit, OnDestroy {
     }
 
     public addEdge(): void {
+      if (Number(this.fromValues) <= this.visNetworkData.nodes.getLength() && Number(this.toValues) <= this.visNetworkData.nodes.getLength()){
         let newEdges = new VisEdges([{from: Number(this.fromValues), to: Number(this.toValues)}])
         
         newEdges.forEach( edge =>{ this.visNetworkData.edges.add(edge) })
         // this.visNetworkData.edges.add(newEdge)
-        console.log(newEdges)
+        // console.log(newEdges)
+      }
+      else {
+        window.alert("Value given out of Range")
+      }
+
     }
     
     fromValues = ''
