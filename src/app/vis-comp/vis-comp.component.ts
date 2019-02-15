@@ -16,28 +16,8 @@ class ExampleNetworkData implements VisNetworkData {
 
 @Component({
     selector: 'app-vis-comp',
-    styles: [
-      `.network-canvas {
-          width: 100%;
-          height: 750px;
-          border: 4px solid lightgray;
-      }`,
-    ],
-    // template: `<p> Hello World </p>`,
-    template: `./vis-comp.component.html`
-    // `
-    //   <h2>Network</h2>
-    //   <h3>Basic usage</h3>
-    //   <div class="network-canvas"
-    //     [visNetwork]="visNetwork"
-    //     [visNetworkData]="visNetworkData"
-    //     [visNetworkOptions]="visNetworkOptions"
-    //     (initialized)="networkInitialized()"></div>
-    //   <button type="button" class="btn btn-default" (click)="addNode()">Add node</button>
-    //   <p>
-    //     <strong>Note:</strong> Open your dev tools to see the console output when the network receives click events.
-    //   </p>
-    // `,
+    templateUrl: './vis-comp.component.html',
+    styleUrls: ['./vis-comp.component.css']
 })
 export class VisCompComponent implements OnInit, OnDestroy {
 
@@ -54,7 +34,21 @@ export class VisCompComponent implements OnInit, OnDestroy {
     }
 
     public addEdge(): void {
-
+        let newEdges = new VisEdges([{from: Number(this.fromValues), to: Number(this.toValues)}])
+        
+        newEdges.forEach( edge =>{ this.visNetworkData.edges.add(edge) })
+        // this.visNetworkData.edges.add(newEdge)
+        console.log(newEdges)
+    }
+    
+    fromValues = ''
+    public onFromKeyEvent(event: any){
+        this.fromValues = event.target.value
+        // console.log(this.fromValues)
+    }
+    toValues = ''
+    public onToKeyEvent(event: any){
+        this.toValues = event.target.value
     }
 
     public networkInitialized(): void {
@@ -85,7 +79,7 @@ export class VisCompComponent implements OnInit, OnDestroy {
         //     { id: '6', label: 'Test Node'}]);
         let nodeEdges = []
         for (let i = 0; i < nodeList.length; i++){
-          nodeEdges.push({ from: `${i}`, to: `${i+1}`})
+          nodeEdges.push({ from: `${Math.floor(Math.random() * 10)}`, to: `${Math.floor(Math.random() * 10)}`})
         }
         const edges = new VisEdges(nodeEdges)
         // ([
